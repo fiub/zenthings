@@ -1,0 +1,20 @@
+name: Merge-Tests
+on:
+  pull_request:
+    branches: [ main ]
+
+env:
+  KEY_HEADER: "X-API-KEY: JzEvwwgFdB3g4fI9AuTNxa53opiFBNcf1c3odlsO"
+  PAYLOAD: "{ \"gitHub\": { \"owner\": \"fiub\", \"repo\": \"zenthings\", \"sha\": \"${{ github.event.pull_request.head.sha }}\" } }"
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Reflect tests
+        run: curl
+             -X POST
+             -H "$KEY_HEADER"
+             -d "$PAYLOAD"
+             -s
+             https://api.reflect.run/v1/suites/ci_cd_zen_suite/executions
